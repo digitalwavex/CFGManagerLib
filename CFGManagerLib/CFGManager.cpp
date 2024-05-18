@@ -10,18 +10,9 @@ CFGManager::CFGManager()
 
 
 
-CFGManager::~CFGManager()
-{
-	this->filestream.close();
-}
-
-
-
-
 CFGManager::CFGManager(const std::string& file_path = "")
 {
 	this->file_path = file_path;
-	this->filestream.open(file_path, std::ios::in);
 }
 
 
@@ -69,11 +60,10 @@ void CFGManager::openconfig(const std::string& file_path)
 	if (file_path != "")
 	{
 		this->file_path = file_path;
-		this->filestream.close();
-		this->filestream.open(file_path, std::ios::in | std::ios::out);
 	}
 
-	//this->filestream.open(this->file_path, std::ios::in);
+	this->filestream.open(this->file_path, std::ios::in);
+
 
 	if (!this->filestream.is_open())
 		//throw std::exception("error opening file");
@@ -96,7 +86,7 @@ void CFGManager::openconfig(const std::string& file_path)
 		}
 	}
 
-	//this->filestream.close();
+	this->filestream.close();
 }
 
 
@@ -108,12 +98,12 @@ void CFGManager::save(const std::string& file_path)
 	if (file_path != "")
 		this->file_path = file_path;
 
-	//this->filestream.open(this->file_path, std::ios::out);
+	this->filestream.open(this->file_path, std::ios::out);
 
 	for (auto i : this->structure)
-		this->filestream << '[' << i.first << "][" << i.second << "]\n";
+		this->filestream << '[' << i.first << "]:[" << i.second << "]\n";
 
-	//this->filestream.close();
+	this->filestream.close();
 }
 
 

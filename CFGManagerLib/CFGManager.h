@@ -12,7 +12,6 @@ public:
 	// Constructors and destructor	
 	CFGManager(const std::string& file_path);
 	CFGManager();
-	~CFGManager();
 
 
 	const bool is_key_exists(const std::string& key);
