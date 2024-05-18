@@ -5,9 +5,10 @@
 
 
 
-# main.cpp
+# other
 CFGManagerLib/main.cpp
-
+CFGManagerLib/CFGManagerLib.vcxproj.filters
+CFGManagerLib/CFGManagerLib.vcxproj.user
 
 
 
