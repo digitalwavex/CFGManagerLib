@@ -34,6 +34,8 @@ public:
 	void clear();
 
 
+	std::unordered_map <std::string, std::string>& get_container();
+
 
 private:
 	std::unordered_map <std::string, std::string> structure;

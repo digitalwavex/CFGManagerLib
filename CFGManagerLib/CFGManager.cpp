@@ -3,9 +3,7 @@
 
 
 // Default constructor
-CFGManager::CFGManager()
-{
-}
+CFGManager::CFGManager() {}
 
 
 
@@ -170,6 +168,15 @@ void CFGManager::remove_key(const std::string& key)
 void CFGManager::clear()
 {
 	this->structure.clear();
+}
+
+
+
+
+// Provide access to container
+std::unordered_map<std::string, std::string>& CFGManager::get_container()
+{
+	return this->structure;
 }
 
 
