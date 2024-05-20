@@ -6,9 +6,24 @@
 #include <regex>
 
 
+
+
+
 class CFGManager
 {
 public:
+	class exception : public std::exception
+	{
+	public:
+		exception(const std::string& function_name, const std::string& error);
+		
+		const char* what() const noexcept override;
+
+	private:
+		std::string message;
+	};	
+	
+	
 	// Constructors and destructor	
 	CFGManager(const std::string& file_path);
 	CFGManager();
@@ -19,13 +34,10 @@ public:
 	const size_t size();
 
 
-	void openconfig(const std::string& file_path = "");
-	void save(const std::string& file_path = "");
+	void open();
+	void save();
 	void set_file_path(const std::string& file_path);
-	const std::string& get_file_path();
-
-	std::string& operator [] (const std::string& key);
-	std::pair <const std::string, std::string>& operator [] (const size_t& index);
+	const char* get_file_path();
 
 
 	void rename_key(const std::string& key, const std::string& new_name);

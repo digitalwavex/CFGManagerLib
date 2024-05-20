@@ -1,5 +1,30 @@
 #include "CFGManager.h"
-#include <iostream>
+
+
+
+
+
+// ================================= CLASS CFGMANAGER::EXCEPTION =================================
+CFGManager::exception::exception(const std::string& function_name, const std::string& error)
+{
+	this->message = "Exception '" + error + "' in the function '" + function_name + "'";
+}
+
+
+
+const char* CFGManager::exception::what() const noexcept
+{
+	return this->message.c_str();
+}
+
+
+
+
+
+
+
+
+// ================================= CLASS CFGMANAGER =================================
 
 
 // Default constructor
@@ -18,16 +43,9 @@ CFGManager::CFGManager(const std::string& file_path = "")
 
 const bool CFGManager::is_key_exists(const std::string& key)
 {
-	try
-	{
-		this->structure.at(key);
+	if (this->structure.count(key) > 0)
 		return true;
-	}
-	catch (std::out_of_range) 
-	{
-		return false;
-	}
-	
+	return false;
 }
 
 
@@ -36,7 +54,8 @@ const bool CFGManager::is_key_exists(const std::string& key)
 
 const bool CFGManager::is_empty()
 {
-	if (this->structure.size() == 0) return true;
+	if (CFGManager::size() == 0) 
+		return true;
 	return false;
 }
 
@@ -53,19 +72,11 @@ const size_t CFGManager::size()
 
 
 
-void CFGManager::openconfig(const std::string& file_path)
+void CFGManager::open()
 {
-	if (file_path != "")
-	{
-		this->file_path = file_path;
-	}
-
 	this->filestream.open(this->file_path, std::ios::in);
-
-
 	if (!this->filestream.is_open())
-		//throw std::exception("error opening file");
-		std::cout << "ERROR OPENING FILE" << std::endl;
+		throw CFGManager::exception("open", "the file stream could not be opened for reading");
 
 
 
@@ -73,6 +84,7 @@ void CFGManager::openconfig(const std::string& file_path)
 	std::cmatch result;
 	std::regex pattern(R"(\[(.+)\]\s*:\s*)"		// selects lines between square brackets, separated by colon
 					   R"(\[(.+)\])");
+
 
 	// Parsing line
 	while (std::getline(this->filestream, current_line))
@@ -91,15 +103,23 @@ void CFGManager::openconfig(const std::string& file_path)
 
 
 
-void CFGManager::save(const std::string& file_path)
+void CFGManager::save()
 {
-	if (file_path != "")
+	if (!file_path.empty())
 		this->file_path = file_path;
 
-	this->filestream.open(this->file_path, std::ios::out);
 
-	for (auto i : this->structure)
+
+	this->filestream.open(this->file_path, std::ios::out);
+	if (!this->filestream.is_open())
+		throw CFGManager::exception("save", "the file stream could not be opened for writing");
+
+
+
+	for (auto& i : this->structure)
 		this->filestream << '[' << i.first << "]:[" << i.second << "]\n";
+
+
 
 	this->filestream.close();
 }
@@ -117,30 +137,9 @@ void CFGManager::set_file_path(const std::string& file_path)
 
 
 
-const std::string& CFGManager::get_file_path()
+const char* CFGManager::get_file_path()
 {
-	return this->file_path;
-}
-
-
-
-
-
-std::string& CFGManager::operator[](const std::string& key)
-{
-	return this->structure[key];
-}
-
-
-
-
-
-std::pair <const std::string, std::string>& CFGManager::operator[](const size_t& index)
-{
-	auto iterator = this->structure.begin();
-	std::advance(iterator, index);
-
-	return *iterator;
+	return this->file_path.c_str();
 }
 
 
@@ -192,4 +191,5 @@ void CFGManager::rename_key(const std::string& key, const std::string& new_name)
 		this->structure.insert(std::move(node));
 	}
 }
+
 
