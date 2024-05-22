@@ -5,9 +5,16 @@
 
 
 // ================================= CLASS CFGMANAGER::EXCEPTION =================================
-CFGManager::exception::exception(const std::string& function_name, const std::string& error)
+
+
+
+
+
+
+CFGManager::exception::exception(const std::string& function_name, const std::string& error, const unsigned int& error_code) noexcept
 {
 	this->message = "Exception '" + error + "' in the function '" + function_name + "'";
+	this->error_code = error_code;
 }
 
 
@@ -17,6 +24,13 @@ const char* CFGManager::exception::what() const noexcept
 	return this->message.c_str();
 }
 
+
+
+
+const unsigned int& CFGManager::exception::get_error_code() const noexcept
+{
+	return this->error_code;
+}
 
 
 
@@ -74,9 +88,16 @@ const size_t CFGManager::size()
 
 void CFGManager::open()
 {
+	if (this->file_path.empty())
+		throw CFGManager::exception("open", "the path to the file is not specified", 
+			CFGManager::exception::exceptions::FILE_PATH_IS_NOT_SPECIFIED);
+
+	
 	this->filestream.open(this->file_path, std::ios::in);
+
 	if (!this->filestream.is_open())
-		throw CFGManager::exception("open", "the file stream could not be opened for reading");
+		throw CFGManager::exception("open", "the file stream could not be opened for reading", 
+			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_READING);
 
 
 
@@ -84,7 +105,6 @@ void CFGManager::open()
 	std::cmatch result;
 	std::regex pattern(R"(\[(.+)\]\s*:\s*)"		// selects lines between square brackets, separated by colon
 					   R"(\[(.+)\])");
-
 
 	// Parsing line
 	while (std::getline(this->filestream, current_line))
@@ -105,14 +125,15 @@ void CFGManager::open()
 
 void CFGManager::save()
 {
-	if (!file_path.empty())
-		this->file_path = file_path;
-
+	if (this->file_path.empty())
+		throw CFGManager::exception("save", "the path to the file is not specified", 
+			CFGManager::exception::exceptions::FILE_PATH_IS_NOT_SPECIFIED);
 
 
 	this->filestream.open(this->file_path, std::ios::out);
 	if (!this->filestream.is_open())
-		throw CFGManager::exception("save", "the file stream could not be opened for writing");
+		throw CFGManager::exception("save", "the file stream could not be opened for writing", 
+			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_WRITING);
 
 
 

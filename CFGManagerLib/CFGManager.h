@@ -12,16 +12,30 @@
 class CFGManager
 {
 public:
+	// Inner exception class
 	class exception : public std::exception
 	{
 	public:
-		exception(const std::string& function_name, const std::string& error);
+		exception(const std::string& function_name, const std::string& error, const unsigned int& error_code) noexcept;
 		
 		const char* what() const noexcept override;
 
+		const unsigned int& get_error_code() const noexcept;
+
+		enum exceptions
+		{
+			FILE_PATH_IS_NOT_SPECIFIED,
+			FILESTREAM_CANT_BE_OPENED_FOR_WRITING,
+			FILESTREAM_CANT_BE_OPENED_FOR_READING
+		};
+
 	private:
 		std::string message;
+		unsigned int error_code;
 	};	
+
+
+
 	
 	
 	// Constructors and destructor	
@@ -53,7 +67,5 @@ private:
 	std::unordered_map <std::string, std::string> structure;
 	std::string file_path;
 	std::fstream filestream;
-
-	bool file_was_opened = false;
 };
 
