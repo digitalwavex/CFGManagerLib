@@ -55,9 +55,9 @@ CFGManager::CFGManager(const std::string& file_path = "")
 
 
 
-const bool CFGManager::is_key_exists(const std::string& key)
+bool CFGManager::is_key_exists(const std::string& key)
 {
-	if (this->structure.count(key) > 0)
+	if (this->structure.find(key) != this->structure.end())
 		return true;
 	return false;
 }
@@ -66,7 +66,7 @@ const bool CFGManager::is_key_exists(const std::string& key)
 
 
 
-const bool CFGManager::is_empty()
+bool CFGManager::is_empty()
 {
 	if (CFGManager::size() == 0) 
 		return true;
@@ -77,7 +77,7 @@ const bool CFGManager::is_empty()
 
 
 
-const size_t CFGManager::size()
+size_t CFGManager::size()
 {
 	return this->structure.size();
 }
@@ -149,9 +149,9 @@ void CFGManager::save()
 
 
 
-void CFGManager::set_file_path(const std::string& file_path)
+void CFGManager::set_file_path(const std::string& _file_path)
 {
-	this->file_path = file_path;
+	file_path = _file_path;
 }
 
 
@@ -194,7 +194,7 @@ void CFGManager::clear()
 
 
 // Provide access to container
-std::unordered_map<std::string, std::string>& CFGManager::get_container()
+std::map<std::string, std::string>& CFGManager::get_container()
 {
 	return this->structure;
 }

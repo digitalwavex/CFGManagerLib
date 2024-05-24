@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
+#include <map>
 #include <fstream>
 #include <regex>
 
@@ -43,9 +43,9 @@ public:
 	CFGManager();
 
 
-	const bool is_key_exists(const std::string& key);
-	const bool is_empty();
-	const size_t size();
+	bool is_key_exists(const std::string& key);
+	bool is_empty();
+	size_t size();
 
 
 	void open();
@@ -60,11 +60,11 @@ public:
 	void clear();
 
 
-	std::unordered_map <std::string, std::string>& get_container();
+	std::map <std::string, std::string>& get_container();
 
 
 private:
-	std::unordered_map <std::string, std::string> structure;
+	std::map <std::string, std::string> structure;
 	std::string file_path;
 	std::fstream filestream;
 };
