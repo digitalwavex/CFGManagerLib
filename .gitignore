@@ -1,6 +1,5 @@
 /*
 
 
-!/CFGManagerLib/*.cpp
-!/CFGManagerLib/*.h
-!/CFGManagerLib/*.hpp
+!/src/
+!CMakeLists.txt
