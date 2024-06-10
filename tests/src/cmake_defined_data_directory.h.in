@@ -1,0 +1,4 @@
+#pragma once
+
+
+#define TESTS_DATA_DIRECTORY "@TESTS_DATA_DIRECTORY@/"
