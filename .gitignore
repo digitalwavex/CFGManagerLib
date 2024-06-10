@@ -1,5 +1,12 @@
 /*
 
 
-!/src/
+!/src
+!/tests/data
+!/tests/src
+!/tests/CMakeLists.txt
 !CMakeLists.txt
+!.vscode
+
+
+

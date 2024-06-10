@@ -1,25 +1,45 @@
-cmake_minimum_required(VERSION 3.27)
-project(CFGManager)
-
-
-set(HEADER_PATH "src/include/CFGManager.h")
-set(SOURCE_PATH "src/sources/CFGManager.cpp")
-set(BUILD_DIR "build")
-
-
-make_directory("${BUILD_DIR}/lib")
-make_directory("${BUILD_DIR}/include")
-
-
-set(CMAKE_CXX_FLAGS "-Wpedantic -Wall -Werror -std=c++23")
+cmake_minimum_required(VERSION 3.27.4)
+project(CFGManager LANGUAGES CXX)
 
 
 
-set(LIBRARY_OUTPUT_PATH "${BUILD_DIR}/lib")
-add_library(${PROJECT_NAME} STATIC ${SOURCE_PATH})
+set(ROOT_FOLDER ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(SOURCE_CPP "${ROOT_FOLDER}/src/sources/CFGManager.cpp")
+set(SOURCE_HEADER "${ROOT_FOLDER}/src/include/CFGManager.h")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${ROOT_FOLDER}/build/CFGManager/lib")
+set(INCLUDE_OUTPUT_DIRECTORY "${ROOT_FOLDER}/build/CFGManager/include")
 
 
-# =================================== COPYING HEADER FILE ===================================
-add_custom_command(TARGET ${PROJECT_NAME}
-                    COMMAND ${CMAKE_COMMAND} -E copy
-                    ${HEADER_PATH} "${BUILD_DIR}/include")
+set(CMAKE_CXX_STANDARD 23)
+add_definitions(-Wall -Wpedantic -Wextra -Werror)
+
+
+option(BUILD_TESTS "Need to build tests?" OFF)
+
+
+# ========================================= MAKING BUILD DIRECTORY =========================================
+make_directory(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+make_directory(${INCLUDE_OUTPUT_DIRECTORY})
+
+
+
+# =========================================    BUILDING LIBRARY    =========================================
+add_library(${CMAKE_PROJECT_NAME} ${SOURCE_CPP})
+
+
+
+
+# =========================================     COPYING HEADERS    =========================================
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND 
+                    cp ${SOURCE_HEADER} ${INCLUDE_OUTPUT_DIRECTORY})
+
+
+
+# =========================================     BUILDING TESTS     =========================================
+
+
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(${ROOT_FOLDER}/tests)
+endif()

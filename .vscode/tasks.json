@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+
+    "tasks": [
+        {
+            "label": "Build all",
+            "type": "shell",
+            "command": "cmake --build build/",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure CMake with tests",
+            "type": "shell",
+            "command": "mkdir -p build; cd build; cmake .. -D BUILD_TESTS=ON",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure CMake",
+            "type": "shell",
+            "command": "mkdir -p build; cd build; cmake ..",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run tests",
+            "type": "shell",
+            "command": "cd build; ctest --output-on-failure",
+            "group": "test",
+            "problemMatcher": []
+        }
+    ]
+}
