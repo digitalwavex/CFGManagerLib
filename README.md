@@ -58,7 +58,7 @@ You need to install the following:
  - Make
  - GTest (If you want to build tests)
 
-Go to the project root folder (where the CMakeLists.txt file is located) then write in terminal:
+Go to the project root folder (where the CMakeLists.txt file is located) then write in terminal (you can also open the folder in Visual Studio Code and build the project):
 
     mkdir build
     cd build
