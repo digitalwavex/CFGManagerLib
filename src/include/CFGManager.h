@@ -61,10 +61,14 @@ public:
 
 	std::unordered_map <std::string, std::string>& get_container() noexcept;
 	const std::unordered_map <std::string, std::string>& get_container() const noexcept;
-	
+
+
+	void operator = (const CFGManager& other) noexcept;
+
 private:
 	std::unordered_map <std::string, std::string> _data;
 	std::string _file_path;
 	std::fstream _filestream;
 };
 
+bool operator == (const CFGManager& first, const CFGManager& second) noexcept;

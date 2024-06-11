@@ -228,3 +228,18 @@ void CFGManager::rename_key(const std::string& key, const std::string& new_name)
 }
 
 
+
+
+void CFGManager::operator = (const CFGManager& other) noexcept
+{
+	_data = other._data;
+	_file_path = other._file_path;
+}
+
+
+
+
+bool operator == (const CFGManager& first, const CFGManager& second) noexcept
+{
+	return first.get_container() == second.get_container();
+}

@@ -38,6 +38,60 @@ TEST(CopyingConstructor, copying_config)
 
 
 
+TEST(AssignmentOperator, assign_empty)
+{
+    CFGManager cfg;
+    CFGManager cfg2;
+
+    cfg2 = cfg;
+
+    EXPECT_TRUE(cfg.get_container() == cfg2.get_container() && cfg.get_file_path() == cfg2.get_file_path());
+}
+
+
+TEST(AssignmentOperator, assign_not_empty)
+{
+    CFGManager cfg;
+    cfg.add_key("Key 1", "Value 1");
+    CFGManager cfg2;
+
+    cfg2 = cfg;
+
+    EXPECT_TRUE(cfg.get_container() == cfg2.get_container() && cfg.get_file_path() == cfg2.get_file_path());
+}
+
+
+
+
+TEST(ComparasionOperator, compare_equal)
+{
+    CFGManager cfg;
+    cfg.add_key("key 1", "value 1");
+
+    CFGManager cfg2;
+    cfg2.add_key("key 1", "value 1");
+
+
+    EXPECT_TRUE(cfg == cfg2);
+}
+
+
+TEST(ComparasionOperator, compare_not_equal)
+{
+    CFGManager cfg;
+    cfg.add_key("key 1", "value 1");
+
+    CFGManager cfg2;
+    cfg2.add_key("key 1", "value 1");
+    cfg2.add_key("key 2", "value 2");
+
+
+    EXPECT_FALSE(cfg == cfg2);
+}
+
+
+
+
 TEST(TestingCountOfElements, Testing_5_elements)
 {
    CFGManager cfg;
