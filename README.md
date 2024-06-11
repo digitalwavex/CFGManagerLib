@@ -36,8 +36,11 @@ The library also has an overloaded copy constructor, an assignment operator (cop
 ## Possible exceptions
 Some functions may throw an exception if something goes wrong. The exception class is CFGManager::exception, which inherits from std::exception. Inside this class there is an additional method get_error_code(), which returns the error code. The what() method returns a description of the exception and in which method it was thrown. Inside CFGManager::exception there is an exception enum which contains the following possible exceptions (you can compare the error code with the exception code):
 
+
 *FILE_PATH_IS_NOT_SPECIFIED* - Forgot to specify the path to the file 
-*FILESTREAM_CANT_BE_OPENED_FOR_WRITING* - Does not have write permissions *FILESTREAM_CANT_BE_OPENED_FOR_READING* - The file does not exist or there is no read permission
+*FILESTREAM_CANT_BE_OPENED_FOR_WRITING* - Does not have write permissions *
+FILESTREAM_CANT_BE_OPENED_FOR_READING* - The file does not exist or there is no read permission
+
 
 These exceptions can be thrown by the following methods:
 
