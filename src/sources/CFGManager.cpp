@@ -14,15 +14,15 @@
 
 CFGManager::exception::exception(const std::string& function_name, const std::string& error, const unsigned int& error_code) noexcept
 {
-	this->message = "Exception '" + error + "' in the function '" + function_name + "'";
-	this->error_code = error_code;
+	_message = "Exception '" + error + "' in the function '" + function_name + "'";
+	_error_code = error_code;
 }
 
 
 
 const char* CFGManager::exception::what() const noexcept
 {
-	return this->message.c_str();
+	return _message.c_str();
 }
 
 
@@ -30,7 +30,7 @@ const char* CFGManager::exception::what() const noexcept
 
 const unsigned int& CFGManager::exception::get_error_code() const noexcept
 {
-	return this->error_code;
+	return _error_code;
 }
 
 
@@ -48,17 +48,19 @@ CFGManager::CFGManager() {}
 
 
 
-CFGManager::CFGManager(const std::string& file_path = "")
+CFGManager::CFGManager(const std::string& file_path)
 {
-	this->file_path = file_path;
+	_file_path = file_path;
+	open();
 }
+
 
 
 
 
 bool CFGManager::is_key_exists(const std::string& key)
 {
-	if (this->structure.find(key) != this->structure.end())
+	if (_data.find(key) != _data.end())
 		return true;
 	return false;
 }
@@ -80,7 +82,7 @@ bool CFGManager::is_empty()
 
 size_t CFGManager::size()
 {
-	return this->structure.size();
+	return _data.size();
 }
 
 
@@ -89,14 +91,14 @@ size_t CFGManager::size()
 
 void CFGManager::open()
 {
-	if (this->file_path.empty())
+	if (_file_path.empty())
 		throw CFGManager::exception("open", "the path to the file is not specified", 
 			CFGManager::exception::exceptions::FILE_PATH_IS_NOT_SPECIFIED);
 
 	
-	this->filestream.open(this->file_path, std::ios::in);
+	_filestream.open(_file_path, std::ios::in);
 
-	if (!this->filestream.is_open())
+	if (!_filestream.is_open())
 		throw CFGManager::exception("open", "the file stream could not be opened for reading", 
 			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_READING);
 
@@ -108,16 +110,16 @@ void CFGManager::open()
 					   R"(\[(.+)\])");
 
 	// Parsing line
-	while (std::getline(this->filestream, current_line))
+	while (std::getline(_filestream, current_line))
 	{
 		// If the current line matches
 		if (std::regex_match(current_line.data(), result, pattern))
 		{
-			this->structure[result[1]] = result[2];
+			_data[result[1]] = result[2];
 		}
 	}
 
-	this->filestream.close();
+	_filestream.close();
 }
 
 
@@ -126,33 +128,33 @@ void CFGManager::open()
 
 void CFGManager::save()
 {
-	if (this->file_path.empty())
+	if (_file_path.empty())
 		throw CFGManager::exception("save", "the path to the file is not specified", 
 			CFGManager::exception::exceptions::FILE_PATH_IS_NOT_SPECIFIED);
 
 
-	this->filestream.open(this->file_path, std::ios::out);
-	if (!this->filestream.is_open())
+	_filestream.open(_file_path, std::ios::out);
+	if (!_filestream.is_open())
 		throw CFGManager::exception("save", "the file stream could not be opened for writing", 
 			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_WRITING);
 
 
 
-	for (auto& i : this->structure)
-		this->filestream << '[' << i.first << "]:[" << i.second << "]\n";
+	for (auto& i : _data)
+		_filestream << '[' << i.first << "]:[" << i.second << "]\n";
 
 
 
-	this->filestream.close();
+	_filestream.close();
 }
 
 
 
 
 
-void CFGManager::set_file_path(const std::string& _file_path)
+void CFGManager::set_file_path(const std::string& file_path)
 {
-	file_path = _file_path;
+	_file_path = file_path;
 }
 
 
@@ -161,7 +163,7 @@ void CFGManager::set_file_path(const std::string& _file_path)
 
 const char* CFGManager::get_file_path()
 {
-	return this->file_path.c_str();
+	return _file_path.c_str();
 }
 
 
@@ -170,7 +172,7 @@ const char* CFGManager::get_file_path()
 
 void CFGManager::add_key(const std::string& key, const std::string& value)
 {
-	this->structure[key] = value;
+	_data[key] = value;
 }
 
 
@@ -179,7 +181,7 @@ void CFGManager::add_key(const std::string& key, const std::string& value)
 
 void CFGManager::remove_key(const std::string& key)
 {
-	this->structure.erase(key);
+	_data.erase(key);
 }
 
 
@@ -188,7 +190,7 @@ void CFGManager::remove_key(const std::string& key)
 
 void CFGManager::clear()
 {
-	this->structure.clear();
+	_data.clear();
 }
 
 
@@ -197,7 +199,7 @@ void CFGManager::clear()
 // Provide access to container
 std::map<std::string, std::string>& CFGManager::get_container()
 {
-	return this->structure;
+	return _data;
 }
 
 
@@ -206,11 +208,11 @@ std::map<std::string, std::string>& CFGManager::get_container()
 
 void CFGManager::rename_key(const std::string& key, const std::string& new_name)
 {
-	auto node = this->structure.extract(key);
+	auto node = _data.extract(key);
 	if(node)
 	{
 		node.key() = new_name;
-		this->structure.insert(std::move(node));
+		_data.insert(std::move(node));
 	}
 }
 

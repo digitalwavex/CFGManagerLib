@@ -37,7 +37,6 @@ add_library(${CMAKE_PROJECT_NAME} ${SOURCE_CPP})
 
 
 
-
 # =========================================     COPYING HEADERS    =========================================
 add_custom_command(TARGET ${CMAKE_PROJECT_NAME} COMMAND ${CMAKE_COMMAND} -E 
                     copy ${SOURCE_HEADER} ${INCLUDE_OUTPUT_DIRECTORY})

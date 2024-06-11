@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.27.4)
 project(main_test)
 
 
-
 link_libraries(gtest ${CMAKE_PROJECT_NAME})
 link_directories(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
@@ -19,6 +18,9 @@ make_directory(${ROOT_FOLDER}/build/)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_PROJECT_NAME})
+
+
+add_dependencies(${PROJECT_NAME} ${CMAKE_PROJECT_NAME})
 
 
 

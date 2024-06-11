@@ -29,8 +29,8 @@ public:
 		};
 
 	private:
-		std::string message;
-		unsigned int error_code;
+		std::string _message;
+		unsigned int _error_code;
 	};	
 
 
@@ -63,8 +63,8 @@ public:
 
 
 private:
-	std::map <std::string, std::string> structure;
-	std::string file_path;
-	std::fstream filestream;
+	std::map <std::string, std::string> _data;
+	std::string _file_path;
+	std::fstream _filestream;
 };
 
