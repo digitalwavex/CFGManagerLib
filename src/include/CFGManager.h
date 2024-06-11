@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <map>
+#include <unordered_map>
 #include <fstream>
 #include <regex>
 
@@ -59,11 +59,11 @@ public:
 	void clear();
 
 
-	std::map <std::string, std::string>& get_container();
+	std::unordered_map <std::string, std::string>& get_container();
 
 
 private:
-	std::map <std::string, std::string> _data;
+	std::unordered_map <std::string, std::string> _data;
 	std::string _file_path;
 	std::fstream _filestream;
 };

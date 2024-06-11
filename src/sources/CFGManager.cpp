@@ -197,7 +197,7 @@ void CFGManager::clear()
 
 
 // Provide access to container
-std::map<std::string, std::string>& CFGManager::get_container()
+std::unordered_map<std::string, std::string>& CFGManager::get_container()
 {
 	return _data;
 }
