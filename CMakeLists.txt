@@ -12,7 +12,15 @@ set(INCLUDE_OUTPUT_DIRECTORY "${ROOT_FOLDER}/build/CFGManager/include")
 
 
 set(CMAKE_CXX_STANDARD 23)
-add_definitions(-Wall -Wpedantic -Wextra -Werror)
+
+
+
+if(MSVC)
+    add_definitions(-Wall -WX)
+else()
+    add_definitions(-Wall -Wpedantic -Wextra -Werror)
+endif()
+
 
 
 option(BUILD_TESTS "Need to build tests?" OFF)
@@ -31,8 +39,8 @@ add_library(${CMAKE_PROJECT_NAME} ${SOURCE_CPP})
 
 
 # =========================================     COPYING HEADERS    =========================================
-add_custom_command(TARGET ${CMAKE_PROJECT_NAME} POST_BUILD COMMAND 
-                    cp ${SOURCE_HEADER} ${INCLUDE_OUTPUT_DIRECTORY})
+add_custom_command(TARGET ${CMAKE_PROJECT_NAME} COMMAND ${CMAKE_COMMAND} -E 
+                    copy ${SOURCE_HEADER} ${INCLUDE_OUTPUT_DIRECTORY})
 
 
 
