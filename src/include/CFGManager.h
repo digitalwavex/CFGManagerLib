@@ -31,37 +31,37 @@ public:
 	private:
 		std::string _message;
 		unsigned int _error_code;
-	};	
-
+	};
 
 
 	
 	
-	// Constructors and destructor	
-	CFGManager(const std::string& file_path);
-	CFGManager();
+	// Constructors
+	CFGManager(const std::string& file_path) noexcept;
+	CFGManager() noexcept;
+	CFGManager(const CFGManager& other) noexcept;
 
 
-	bool is_key_exists(const std::string& key);
-	bool is_empty();
-	size_t size();
+	bool is_key_exists(const std::string& key) const noexcept;
+	bool is_empty() const noexcept;
+	size_t size() const noexcept;
 
 
 	void open();
 	void save();
-	void set_file_path(const std::string& file_path);
-	const char* get_file_path();
+	void set_file_path(const std::string& file_path) noexcept;
+	std::string get_file_path() const noexcept;
 
 
-	void rename_key(const std::string& key, const std::string& new_name);
-	void add_key(const std::string& key, const std::string& value = "");
-	void remove_key(const std::string& key);
-	void clear();
+	void rename_key(const std::string& key, const std::string& new_name) noexcept;
+	void add_key(const std::string& key, const std::string& value) noexcept;
+	void remove_key(const std::string& key) noexcept;
+	void clear() noexcept;
 
 
-	std::unordered_map <std::string, std::string>& get_container();
-
-
+	std::unordered_map <std::string, std::string>& get_container() noexcept;
+	const std::unordered_map <std::string, std::string>& get_container() const noexcept;
+	
 private:
 	std::unordered_map <std::string, std::string> _data;
 	std::string _file_path;

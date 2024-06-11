@@ -2,12 +2,7 @@
 
 
 
-
-
-
 // ================================= CLASS CFGMANAGER::EXCEPTION =================================
-
-
 
 
 
@@ -27,7 +22,6 @@ const char* CFGManager::exception::what() const noexcept
 
 
 
-
 const unsigned int& CFGManager::exception::get_error_code() const noexcept
 {
 	return _error_code;
@@ -42,23 +36,31 @@ const unsigned int& CFGManager::exception::get_error_code() const noexcept
 // ================================= CLASS CFGMANAGER =================================
 
 
-// Default constructor
-CFGManager::CFGManager() {}
+
+CFGManager::CFGManager() noexcept {}
 
 
 
 
-CFGManager::CFGManager(const std::string& file_path)
+CFGManager::CFGManager(const CFGManager& other) noexcept
+{
+	_data = other._data;
+	_file_path = other._file_path;
+}
+
+
+
+
+CFGManager::CFGManager(const std::string& file_path) noexcept
 {
 	_file_path = file_path;
-	open();
 }
 
 
 
 
 
-bool CFGManager::is_key_exists(const std::string& key)
+bool CFGManager::is_key_exists(const std::string& key) const noexcept
 {
 	if (_data.find(key) != _data.end())
 		return true;
@@ -69,7 +71,7 @@ bool CFGManager::is_key_exists(const std::string& key)
 
 
 
-bool CFGManager::is_empty()
+bool CFGManager::is_empty() const noexcept
 {
 	if (CFGManager::size() == 0) 
 		return true;
@@ -80,7 +82,7 @@ bool CFGManager::is_empty()
 
 
 
-size_t CFGManager::size()
+size_t CFGManager::size() const noexcept
 {
 	return _data.size();
 }
@@ -97,6 +99,7 @@ void CFGManager::open()
 
 	
 	_filestream.open(_file_path, std::ios::in);
+
 
 	if (!_filestream.is_open())
 		throw CFGManager::exception("open", "the file stream could not be opened for reading", 
@@ -134,6 +137,7 @@ void CFGManager::save()
 
 
 	_filestream.open(_file_path, std::ios::out);
+
 	if (!_filestream.is_open())
 		throw CFGManager::exception("save", "the file stream could not be opened for writing", 
 			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_WRITING);
@@ -152,7 +156,7 @@ void CFGManager::save()
 
 
 
-void CFGManager::set_file_path(const std::string& file_path)
+void CFGManager::set_file_path(const std::string& file_path) noexcept
 {
 	_file_path = file_path;
 }
@@ -161,7 +165,7 @@ void CFGManager::set_file_path(const std::string& file_path)
 
 
 
-const char* CFGManager::get_file_path()
+std::string CFGManager::get_file_path() const noexcept
 {
 	return _file_path.c_str();
 }
@@ -170,7 +174,7 @@ const char* CFGManager::get_file_path()
 
 
 
-void CFGManager::add_key(const std::string& key, const std::string& value)
+void CFGManager::add_key(const std::string& key, const std::string& value) noexcept
 {
 	_data[key] = value;
 }
@@ -179,7 +183,7 @@ void CFGManager::add_key(const std::string& key, const std::string& value)
 
 
 
-void CFGManager::remove_key(const std::string& key)
+void CFGManager::remove_key(const std::string& key) noexcept
 {
 	_data.erase(key);
 }
@@ -188,7 +192,7 @@ void CFGManager::remove_key(const std::string& key)
 
 
 
-void CFGManager::clear()
+void CFGManager::clear() noexcept
 {
 	_data.clear();
 }
@@ -196,8 +200,16 @@ void CFGManager::clear()
 
 
 
-// Provide access to container
-std::unordered_map<std::string, std::string>& CFGManager::get_container()
+// Provides access to container
+std::unordered_map<std::string, std::string>& CFGManager::get_container() noexcept
+{
+	return _data;
+}
+
+
+
+// Provides access to container
+const std::unordered_map<std::string, std::string>& CFGManager::get_container() const noexcept
 {
 	return _data;
 }
@@ -205,8 +217,7 @@ std::unordered_map<std::string, std::string>& CFGManager::get_container()
 
 
 
-
-void CFGManager::rename_key(const std::string& key, const std::string& new_name)
+void CFGManager::rename_key(const std::string& key, const std::string& new_name) noexcept
 {
 	auto node = _data.extract(key);
 	if(node)
