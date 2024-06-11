@@ -66,7 +66,7 @@ Go to the project root folder (where the CMakeLists.txt file is located) then wr
 If you want to build tests:
 
     cmake .. -DBUILD_TESTS=ON
-Else:
+If not:
 
     cmake ..
   Then:
