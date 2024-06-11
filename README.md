@@ -2,7 +2,7 @@
 The library is written in C++ and use the format [key]:[value] to manage configuration files. Library has the following functionality and nothing extra:
 
  - Reading and writing files
- - Adding, deleting, renaming keys
+ - Adding, deleting, renaming keys etc
 
 
 
