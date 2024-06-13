@@ -13,6 +13,7 @@ set(INCLUDE_OUTPUT_DIRECTORY "${ROOT_FOLDER}/build/CFGManager/include")
 
 set(CMAKE_CXX_STANDARD 23)
 
+set(CMAKE_BUILD_TYPE Release)
 
 
 if(MSVC)
