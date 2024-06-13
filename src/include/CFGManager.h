@@ -15,7 +15,7 @@ public:
 	class exception : public std::exception
 	{
 	public:
-		exception(const std::string& function_name, const std::string& error, const unsigned int& error_code) noexcept;
+		explicit exception(const std::string& function_name, const std::string& error, const unsigned int& error_code) noexcept;
 		
 		const char* what() const noexcept override;
 
@@ -37,8 +37,8 @@ public:
 	
 	
 	// Constructors
-	CFGManager(const std::string& file_path) noexcept;
-	CFGManager() noexcept;
+	explicit CFGManager(const std::string& file_path) noexcept;
+	explicit CFGManager() noexcept;
 	CFGManager(const CFGManager& other) noexcept;
 
 

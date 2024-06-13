@@ -7,7 +7,8 @@
 
 
 
-CFGManager::exception::exception(const std::string& function_name, const std::string& error, const unsigned int& error_code) noexcept
+CFGManager::exception::exception(const std::string& function_name, const std::string& error, 
+										  const unsigned int& error_code) noexcept
 {
 	_message = "Exception '" + error + "' in the function '" + function_name + "'";
 	_error_code = error_code;
