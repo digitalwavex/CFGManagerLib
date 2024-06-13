@@ -240,6 +240,17 @@ void CFGManager::operator = (const CFGManager& other) noexcept
 
 
 
+std::string& CFGManager::operator [] (const std::string& key)
+{
+	if(_data.find(key) != _data.end())
+		return _data[key];
+	
+	throw exception("operator []", "Key `" + key + "` not found", exception::KEY_NOT_FOUND);
+}
+
+
+
+
 bool operator == (const CFGManager& first, const CFGManager& second) noexcept
 {
 	return first.get_container() == second.get_container();

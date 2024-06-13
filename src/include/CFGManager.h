@@ -25,14 +25,14 @@ public:
 		{
 			FILE_PATH_IS_NOT_SPECIFIED,
 			FILESTREAM_CANT_BE_OPENED_FOR_WRITING,
-			FILESTREAM_CANT_BE_OPENED_FOR_READING
+			FILESTREAM_CANT_BE_OPENED_FOR_READING,
+			KEY_NOT_FOUND
 		};
 
 	private:
 		std::string _message;
 		unsigned int _error_code;
 	};
-
 
 	
 	
@@ -64,6 +64,8 @@ public:
 
 
 	void operator = (const CFGManager& other) noexcept;
+
+	std::string& operator [] (const std::string& key);
 
 private:
 	std::unordered_map <std::string, std::string> _data;

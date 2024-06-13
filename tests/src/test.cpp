@@ -12,6 +12,44 @@ std::string _file_to_writing        = data_directory + "file_to_writing.txt";
 
 
 
+TEST(OperatorSquareBrackets, reading_non_empty_config)
+{
+    CFGManager cfg;
+    cfg.add_key("1", "1");
+
+    EXPECT_STREQ(cfg["1"].c_str(), "1");
+}
+
+
+TEST(OperatorSquareBrackets, reading_empty_config)
+{
+    CFGManager cfg;
+
+    try
+    {
+        cfg["Some key"];
+        FAIL();
+    }
+    catch(const CFGManager::exception& e)
+    {
+        EXPECT_EQ(cfg.size(), 0);
+    }     
+}
+
+
+TEST(OperatorSquareBrackets, changing_value)
+{
+    CFGManager cfg;
+    cfg.add_key("key", "value 1");
+
+    cfg["key"] = "value 2";
+
+    EXPECT_EQ(cfg.size(), 1);
+    EXPECT_STREQ(cfg.get_container()["key"].c_str(), "value 2");  
+}
+
+
+
 
 TEST(CopyingConstructor, copying_empty_config)
 {
