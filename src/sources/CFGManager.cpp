@@ -95,16 +95,14 @@ size_t CFGManager::size() const noexcept
 void CFGManager::open()
 {
 	if (_file_path.empty())
-		throw CFGManager::exception("open", "the path to the file is not specified", 
-			CFGManager::exception::exceptions::FILE_PATH_IS_NOT_SPECIFIED);
+		throw exception("open", "the path to the file is not specified", exception::FILE_PATH_IS_NOT_SPECIFIED);
 
 	
 	_filestream.open(_file_path, std::ios::in);
 
 
 	if (!_filestream.is_open())
-		throw CFGManager::exception("open", "the file stream could not be opened for reading", 
-			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_READING);
+		throw exception("open", "the file stream could not be opened for reading", exception::FILESTREAM_CANT_BE_OPENED_FOR_READING);
 
 
 
@@ -133,15 +131,13 @@ void CFGManager::open()
 void CFGManager::save()
 {
 	if (_file_path.empty())
-		throw CFGManager::exception("save", "the path to the file is not specified", 
-			CFGManager::exception::exceptions::FILE_PATH_IS_NOT_SPECIFIED);
+		throw exception("save", "the path to the file is not specified", exception::FILE_PATH_IS_NOT_SPECIFIED);
 
 
 	_filestream.open(_file_path, std::ios::out);
 
 	if (!_filestream.is_open())
-		throw CFGManager::exception("save", "the file stream could not be opened for writing", 
-			CFGManager::exception::exceptions::FILESTREAM_CANT_BE_OPENED_FOR_WRITING);
+		throw exception("save", "the file stream could not be opened for writing", exception::FILESTREAM_CANT_BE_OPENED_FOR_WRITING);
 
 
 
