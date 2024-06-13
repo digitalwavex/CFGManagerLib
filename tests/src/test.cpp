@@ -32,7 +32,7 @@ TEST(OperatorSquareBrackets, reading_empty_config)
     }
     catch(const CFGManager::exception& e)
     {
-        EXPECT_EQ(cfg.size(), 0);
+        EXPECT_EQ(e.get_error_code(), e.KEY_NOT_FOUND);
     }     
 }
 
